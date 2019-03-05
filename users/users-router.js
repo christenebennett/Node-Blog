@@ -45,7 +45,7 @@ router.get('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const users = Users.remove(id);
+    const users = await Users.remove(id);
     if (users > 0){
       res.status(200).json({users});
     } else {

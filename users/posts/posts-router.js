@@ -1,12 +1,7 @@
 const express = require('express');
 
-const router = express.Router();
-
-const PostsRouter = require('./users/posts/posts-router');
-const Users = require('../data/helpers/userDb');
+const UsersRouter = require('./users/users-router');
 const Posts = require('../data/helpers/postDb');
-
-server.use('/:id', PostsRouter);
 
 // retrieves list of users
 router.get('/', async (req, res) => {

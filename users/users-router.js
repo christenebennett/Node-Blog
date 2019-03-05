@@ -5,12 +5,39 @@ const router = express.Router();
 const Users = require('../data/helpers/userDb');
 const Posts = require('../data/helpers/postDb')
 
+// retrieves list of users
 router.get('/', async (req, res) => {
   try {
     const users = await Users.get(req.query);
     res.status(201).json(users);
   } catch (error) {
     res.status(500).json({err: "The users could not be retrieved."})
+  }
+})
+
+// create new user
+router.post('/', async (req, res) => {
+  try {
+    const newUser = req.body;
+    if (newUser.name) {
+      const user = await Users.insert(newUser);
+      res.status(201).json({user});
+    } else {
+      res.status(400).json({err: 'Please provide name of the user'});
+    }
+  } catch (err){
+    res.status(500).json({err: 'There was an error while adding user to the database.'})
+  }
+})
+
+// retrives user's posts
+router.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const posts = await Users.getUserPosts(id);
+    res.status(201).json(posts);
+  } catch (error) {
+    res.status(500).json({err: "The posts could not be retrieved"})
   }
 })
 

@@ -32,7 +32,7 @@ router.get('/', async (req, res) => {
 })
 
 // create new user
-router.post('/', upperCaseName, async (req, res) => {
+router.post('/', upperCaseName, upperCaseName , async (req, res) => {
   try {
     const newUser = req.body;
     if (newUser.name) {

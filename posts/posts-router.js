@@ -34,26 +34,30 @@ router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const post = await Posts.getById(id);
-    res.status(201).json(post);
+    if (post) {
+      res.status(201).json(post);
+    } else {
+      res.status(404).json({err: 'Post with that ID not found'});
+    }
   } catch (error) {
     res.status(500).json({err: "The post could not be retrieved."})
   }
 })
 
-// // delete user by id
-// router.delete('/:id', async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const users = await Users.remove(id);
-//     if (users > 0){
-//       res.status(200).json({users});
-//     } else {
-//       res.status(404).json({err: 'The user with that id does not exist.'})
-//     }
-//   } catch (err) {
-//     res.status(500).json({err: 'There was an error while deleting user.'})
-//   }
-// })
+// delete post by id
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const posts = await Posts.remove(id);
+    if (posts > 0){
+      res.status(200).json({posts});
+    } else {
+      res.status(404).json({err: 'The post with that id does not exist.'})
+    }
+  } catch (err) {
+    res.status(500).json({err: 'There was an error while deleting post.'})
+  }
+})
 // // edit user name
 // router.put('/:id', async (req, res) => {
 //   try {

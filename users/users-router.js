@@ -2,11 +2,24 @@ const express = require('express');
 
 const router = express.Router();
 
-const PostsRouter = require('./users/posts/posts-router');
+const PostsRouter = require('./posts/posts-router');
 const Users = require('../data/helpers/userDb');
-const Posts = require('../data/helpers/postDb');
 
-server.use('/:id', PostsRouter);
+router.use(express.json())
+
+const upperCaseName = (req, res, next) => {
+  let userName = req.body.name;
+  if (userName) {
+    req.body.name = userName.toUpperCase();
+    next();
+  } else {
+    next();
+  }
+}
+router.use(upperCaseName)
+
+
+router.use('/', PostsRouter);
 
 // retrieves list of users
 router.get('/', async (req, res) => {
@@ -19,7 +32,7 @@ router.get('/', async (req, res) => {
 })
 
 // create new user
-router.post('/', async (req, res) => {
+router.post('/', upperCaseName, async (req, res) => {
   try {
     const newUser = req.body;
     if (newUser.name) {

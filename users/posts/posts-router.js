@@ -1,88 +1,80 @@
 const express = require('express');
 
-const UsersRouter = require('./users/users-router');
-const Posts = require('../data/helpers/postDb');
+const router = express.Router();
 
-// retrieves list of users
-router.get('/', async (req, res) => {
-  try {
-    const users = await Users.get(req.query);
-    res.status(201).json(users);
-  } catch (error) {
-    res.status(500).json({err: "The users could not be retrieved."})
-  }
-})
+const Posts = require('../../data/helpers/postDb');
+const Users = require('../users-router');
 
-// create new user
-router.post('/', async (req, res) => {
+// create new post
+router.post('/:id/posts', async (req, res) => {
   try {
-    const newUser = req.body;
-    if (newUser.name) {
-      const user = await Users.insert(newUser);
-      res.status(201).json({user});
+    const newPost = req.body;
+    if (newPost.name) {
+      const post = await Posts.insert(newPost);
+      res.status(201).json({post});
     } else {
-      res.status(400).json({err: 'Please provide name of the user'});
+      res.status(400).json({err: 'Please provide post content'});
     }
   } catch (err){
-    res.status(500).json({err: 'There was an error while adding user to the database.'});
+    res.status(500).json({err: 'There was an error while adding the post.'});
   }
 })
 
-// get individual user by id
-router.get('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const users = await Users.getById(id);
-    res.status(201).json(users);
-  } catch (error) {
-    res.status(500).json({err: "The users could not be retrieved."})
-  }
-})
+// // get individual user by id
+// router.get('/:id', async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const users = await Users.getById(id);
+//     res.status(201).json(users);
+//   } catch (error) {
+//     res.status(500).json({err: "The users could not be retrieved."})
+//   }
+// })
 
-// delete user by id
-router.delete('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const users = await Users.remove(id);
-    if (users > 0){
-      res.status(200).json({users});
-    } else {
-      res.status(404).json({err: 'The user with that id does not exist.'})
-    }
-  } catch (err) {
-    res.status(500).json({err: 'There was an error while deleting user.'})
-  }
-})
-// edit user name
-router.put('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const updateUser = req.body;
-    const user = await Users.update(id, updateUser);
-    if (user){
-      if (updateUser.name){
-        res.status(201).json({user});
-      } else {
-        res.status(400).json({err: 'Please provide updated user name.'});
-      }
-    } else {
-      res.status(404).json({message: "The post with the specified ID does not exist."});
-    }
-  } catch (err) {
-    res.status(500).json({err: 'Error occurred when updating user name'});
-  }
-})
+// // delete user by id
+// router.delete('/:id', async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const users = await Users.remove(id);
+//     if (users > 0){
+//       res.status(200).json({users});
+//     } else {
+//       res.status(404).json({err: 'The user with that id does not exist.'})
+//     }
+//   } catch (err) {
+//     res.status(500).json({err: 'There was an error while deleting user.'})
+//   }
+// })
+// // edit user name
+// router.put('/:id', async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const updateUser = req.body;
+//     const user = await Users.update(id, updateUser);
+//     if (user){
+//       if (updateUser.name){
+//         res.status(201).json({user});
+//       } else {
+//         res.status(400).json({err: 'Please provide updated user name.'});
+//       }
+//     } else {
+//       res.status(404).json({message: "The post with the specified ID does not exist."});
+//     }
+//   } catch (err) {
+//     res.status(500).json({err: 'Error occurred when updating user name'});
+//   }
+// })
 
-// retrieves user's posts
-router.get('/:id/posts', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const posts = await Users.getUserPosts(id);
-    res.status(201).json(posts);
-  } catch (error) {
-    res.status(500).json({err: "The posts could not be retrieved"})
-  }
-})
+// // retrieves user's posts
+// router.get('/:id/posts', async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const posts = await Users.getUserPosts(id);
+//     res.status(201).json(posts);
+//   } catch (error) {
+//     res.status(500).json({err: "The posts could not be retrieved"})
+//   }
+// })
 
 
 module.exports = router;

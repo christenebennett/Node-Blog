@@ -11,8 +11,6 @@ const parser = express.json();
 const securityMiddleware = helmet();
 const logMiddleware = logger('dev');
 
-
-
 server.use(parser, securityMiddleware, cors(), logMiddleware)
 server.use('/api/users', UsersRouter);
 server.use('/api/posts', PostsRouter);

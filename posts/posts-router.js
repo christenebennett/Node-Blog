@@ -30,15 +30,15 @@ router.post('/', async (req, res) => {
 })
 
 // get individual user by id
-// router.get('/:id/posts/:post_id', async (req, res) => {
-//   try {
-//     const { post_id } = req.params;
-//     const post = await Posts.getById(post_id);
-//     res.status(201).json(post);
-//   } catch (error) {
-//     res.status(500).json({err: "The post could not be retrieved."})
-//   }
-// })
+router.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const post = await Posts.getById(id);
+    res.status(201).json(post);
+  } catch (error) {
+    res.status(500).json({err: "The post could not be retrieved."})
+  }
+})
 
 // // delete user by id
 // router.delete('/:id', async (req, res) => {

@@ -58,25 +58,25 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({err: 'There was an error while deleting post.'})
   }
 })
-// // edit user name
-// router.put('/:id', async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const updateUser = req.body;
-//     const user = await Users.update(id, updateUser);
-//     if (user){
-//       if (updateUser.name){
-//         res.status(201).json({user});
-//       } else {
-//         res.status(400).json({err: 'Please provide updated user name.'});
-//       }
-//     } else {
-//       res.status(404).json({message: "The post with the specified ID does not exist."});
-//     }
-//   } catch (err) {
-//     res.status(500).json({err: 'Error occurred when updating user name'});
-//   }
-// })
+// edit user name
+router.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatePost = req.body;
+    const post = await Posts.update(id, updatePost);
+    if (post){
+      if (updatePost.text){
+        res.status(201).json({post});
+      } else {
+        res.status(400).json({err: 'Please provide updated post name.'});
+      }
+    } else {
+      res.status(404).json({message: "The post with the specified ID does not exist."});
+    }
+  } catch (err) {
+    res.status(500).json({err: 'Error occurred when updating post name'});
+  }
+})
 
 // // retrieves user's posts
 // router.get('/:id/posts', async (req, res) => {

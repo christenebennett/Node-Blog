@@ -1,10 +1,7 @@
 const express = require('express');
-
-const router = express.Router();
-
 const Users = require('../data/helpers/userDb');
 
-router.use(express.json())
+const router = express.Router();
 
 // middleware to change name string to uppercase
 const upperCaseName = (req, res, next) => {
@@ -49,7 +46,11 @@ router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const users = await Users.getById(id);
-    res.status(201).json(users);
+    if (users) {
+      res.status(201).json(users);
+    } else {
+      res.status(404).json({err: 'User with that ID does not exist.'})
+    }
   } catch (error) {
     res.status(500).json({err: "The users could not be retrieved."})
   }

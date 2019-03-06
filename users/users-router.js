@@ -6,6 +6,7 @@ const Users = require('../data/helpers/userDb');
 
 router.use(express.json())
 
+// middleware to change name string to uppercase
 const upperCaseName = (req, res, next) => {
   let userName = req.body.name;
   if (userName) {
@@ -16,7 +17,7 @@ const upperCaseName = (req, res, next) => {
   }
 }
 
-router.use(upperCaseName)
+router.use(upperCaseName);
 
 // retrieves list of users
 router.get('/', async (req, res) => {
@@ -68,6 +69,7 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({err: 'There was an error while deleting user.'})
   }
 })
+
 // edit user name
 router.put('/:id', async (req, res) => {
   try {

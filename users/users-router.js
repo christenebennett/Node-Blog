@@ -2,7 +2,6 @@ const express = require('express');
 
 const router = express.Router();
 
-const PostsRouter = require('./posts/posts-router');
 const Users = require('../data/helpers/userDb');
 
 router.use(express.json())
@@ -16,10 +15,8 @@ const upperCaseName = (req, res, next) => {
     next();
   }
 }
+
 router.use(upperCaseName)
-
-
-router.use('/', PostsRouter);
 
 // retrieves list of users
 router.get('/', async (req, res) => {
@@ -101,6 +98,5 @@ router.get('/:id/posts', async (req, res) => {
     res.status(500).json({err: "The posts could not be retrieved"})
   }
 })
-
 
 module.exports = router;

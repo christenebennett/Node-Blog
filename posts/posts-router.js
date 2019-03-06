@@ -2,14 +2,23 @@ const express = require('express');
 
 const router = express.Router();
 
-const Posts = require('../../data/helpers/postDb');
-const Users = require('../users-router');
+const Posts = require('../data/helpers/postDb');
+
+// retrieve all posts
+router.get('/', async (req, res) => {
+  try {
+    const posts = await Posts.get(req.query);
+    res.status(201).json(posts);
+  } catch (err) {
+    res.status(500).json({err: 'There was an error while retrieving posts.'})
+  }
+})
 
 // create new post
-router.post('/:id/posts', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const newPost = req.body;
-    if (newPost.name) {
+    if (newPost.text && newPost.user_id) {
       const post = await Posts.insert(newPost);
       res.status(201).json({post});
     } else {
@@ -20,14 +29,14 @@ router.post('/:id/posts', async (req, res) => {
   }
 })
 
-// // get individual user by id
-// router.get('/:id', async (req, res) => {
+// get individual user by id
+// router.get('/:id/posts/:post_id', async (req, res) => {
 //   try {
-//     const { id } = req.params;
-//     const users = await Users.getById(id);
-//     res.status(201).json(users);
+//     const { post_id } = req.params;
+//     const post = await Posts.getById(post_id);
+//     res.status(201).json(post);
 //   } catch (error) {
-//     res.status(500).json({err: "The users could not be retrieved."})
+//     res.status(500).json({err: "The post could not be retrieved."})
 //   }
 // })
 

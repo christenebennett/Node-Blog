@@ -1,6 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const helmet = require('helmet');
+const cors = require('cors');
 
 const UsersRouter = require('./users/users-router');
 const PostsRouter = require('./posts/posts-router');
@@ -12,7 +13,7 @@ const logMiddleware = logger('dev');
 
 
 
-server.use(parser, securityMiddleware, logMiddleware)
+server.use(parser, securityMiddleware, cors(), logMiddleware)
 server.use('/api/users', UsersRouter);
 server.use('/api/posts', PostsRouter);
 
